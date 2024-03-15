@@ -10,7 +10,7 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: "/api/v1/users/signup"
+            path: "/api/v1/users/"
             backend:
               service:
                 name: auth-srv

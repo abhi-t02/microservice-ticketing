@@ -6,6 +6,9 @@ const MONGO_URI = <string>process.env.MONGO_URI;
 
 // Database connection
 (async function () {
+  if (!process.env.JWT_KEY) {
+    throw new Error("JWT_KEY must be defined.");
+  }
   try {
     await connect(MONGO_URI);
     console.log("connected to mongodb");

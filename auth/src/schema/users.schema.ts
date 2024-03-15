@@ -16,3 +16,7 @@ export const signupUserSchema = object({
 });
 
 export type signupUserInput = TypeOf<typeof signupUserSchema>;
+
+export const signinUserSchema = Object.assign(signupUserSchema);
+
+export type signinUserInput = TypeOf<typeof signinUserSchema>;
