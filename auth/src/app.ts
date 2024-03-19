@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true, limit: "30mb" }));
 app.use(
   cookieSession({
     signed: false,
-    secure: true,
+    secure: process.env.NODE_ENV !== "test",
   })
 );
 
