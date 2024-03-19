@@ -3,6 +3,7 @@ kind: Config
 build:
   local:
     push: false
+    tryImportMissing: true
   artifacts:
     - image: abhi02tr/auth
       context: auth
@@ -12,6 +13,17 @@ build:
         manual:
           - dest: .
             src: "src/**/.ts"
+    - image: abhi02tr/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+        noCache: false
+        pullParent: false
+        squash: false
+      sync:
+        manual:
+          - dest: .
+            src: "**/*.ts"
 manifests:
   rawYaml:
     - ./infra/k8s/*
