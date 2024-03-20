@@ -21,7 +21,7 @@ export default function useRequest(params: {
         params.url,
         params.body
       );
-      params.onSuccess();
+      params.onSuccess(response.data);
       return response.data;
     } catch (err: any) {
       setErrors(err.response.data.errors);

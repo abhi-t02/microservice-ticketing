@@ -17,7 +17,7 @@ export default function signup() {
     url: "/api/v1/users/signup",
     method: "post",
     body: { email, password },
-    onSuccess: () => router.push("/"),
+    onSuccess: (data: any) => router.push(`/`),
   });
 
   const submitHandler = async (e: React.FormEvent) => {
@@ -25,7 +25,7 @@ export default function signup() {
 
     const data = await doRequest();
 
-    console.log(data);
+    // console.log(data);
 
     setEmail("");
     setPassword("");
