@@ -9,7 +9,7 @@ interface bodyType {
 export default function useRequest(params: {
   url: string;
   method: string;
-  body: bodyType;
+  body: bodyType | "";
   onSuccess: Function;
 }) {
   const [errors, setErrors] = useState(null);

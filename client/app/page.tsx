@@ -1,6 +1,8 @@
 // "use client";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import axios from "axios";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 
 async function getData() {
   const cookieStore = cookies();
@@ -33,7 +35,10 @@ async function getData() {
 
 export default async function Home() {
   const data = await getData();
-  console.log(data);
 
-  return <div className="container">Hello 1</div>;
+  return data ? (
+    <div className="container">Signed in</div>
+  ) : (
+    <div className="container">Signed Out</div>
+  );
 }

@@ -3,5 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Component {...pageProps} />
+    </>
+  );
 }
