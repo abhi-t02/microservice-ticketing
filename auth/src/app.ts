@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieSession from "cookie-session";
+import cors from "cors";
 
 import appRouter from "./routes";
 import { errorHandler } from "./middleware/errorHandler.middleware";
@@ -10,6 +11,7 @@ const app = express();
 app.set("trust proxy", true);
 dotenv.config();
 
+app.use(cors());
 app.use(express.json({ limit: "30mb" }));
 app.use(express.urlencoded({ extended: true, limit: "30mb" }));
 app.use(
