@@ -3,26 +3,29 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import React, { useState } from "react";
-import axios from "axios";
+import { useRouter } from "next/navigation";
+
+import useRequest from "@/app/hooks/use-request";
 
 export default function signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
-  const [show, setShow] = useState(false);
+
+  const router = useRouter();
+
+  const { doRequest, errors } = useRequest({
+    url: "/api/v1/users/signup",
+    method: "post",
+    body: { email, password },
+    onSuccess: () => router.push("/"),
+  });
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    setShow(false);
-    try {
-      const response = await axios.post("/api/v1/users/signup", {
-        email,
-        password,
-      });
-    } catch (err: any) {
-      setShow(true);
-      setErrors(err.response.data.errors);
-    }
+
+    const data = await doRequest();
+
+    console.log(data);
 
     setEmail("");
     setPassword("");
@@ -55,15 +58,15 @@ export default function signup() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {show ? (
+        {errors && (
           <div className="alert alert-danger">
             <ul className="my-0">
-              {errors.map((err: any, index) => (
+              {(errors as any).map((err: any, index: any) => (
                 <li key={index}>{err.message}</li>
               ))}
             </ul>
           </div>
-        ) : null}
+        )}
 
         <button className="btn btn-primary">Sign Up</button>
       </form>
