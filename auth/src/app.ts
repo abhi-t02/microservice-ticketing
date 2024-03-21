@@ -4,8 +4,8 @@ import cookieSession from "cookie-session";
 import cors from "cors";
 
 import appRouter from "./routes";
-import { errorHandler } from "./middleware/errorHandler.middleware";
-import { NotFoundError } from "./errors/not-found.errors";
+import { errorHandler } from "@attickets02/common";
+import { NotFoundError } from "@attickets02/common";
 
 const app = express();
 app.set("trust proxy", true);

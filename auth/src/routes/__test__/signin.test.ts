@@ -1,7 +1,6 @@
 import request from "supertest";
 
 import app from "../../app";
-import { send } from "process";
 
 it("Should fails when an email that does not exists is supplied.", async () => {
   await request(app)

@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { sign } from "jsonwebtoken";
 
 import { signinUserInput, signupUserInput } from "../schema/users.schema";
 import User from "../models/user.model";
-import { BadRequestError } from "../errors/bad-request.errors";
+import { BadRequestError } from "@attickets02/common";
 import { signJWT } from "../services/jwt.service";
 
 /**

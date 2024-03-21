@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import validate from "../middleware/validateResources.middleware";
+import { validate } from "@attickets02/common";
 import { signinUserSchema, signupUserSchema } from "../schema/users.schema";
 import {
   signinUserHandler,
@@ -8,8 +8,8 @@ import {
   signupUserHandler,
 } from "../controller/users.controller";
 import { currentUserHandler } from "../controller/current-user.controller";
-import { currentUser } from "../middleware/current-user.middleware";
-import { requireAuth } from "../middleware/require-auth.middleware";
+import { currentUser } from "@attickets02/common";
+import { requireAuth } from "@attickets02/common";
 
 const router = Router();
 
