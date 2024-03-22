@@ -36,7 +36,7 @@ afterAll(async function () {
 
 global.signup = () => {
   const payload = {
-    id: "sonething",
+    id: new mongoose.Types.ObjectId().toHexString(),
     email: "test@test.com",
   };
 
