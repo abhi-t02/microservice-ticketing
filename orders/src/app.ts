@@ -1,5 +1,4 @@
 import express from "express";
-import dotenv from "dotenv";
 import cookieSession from "cookie-session";
 import cors from "cors";
 
@@ -8,7 +7,6 @@ import { errorHandler, NotFoundError, currentUser } from "@attickets02/common";
 
 const app = express();
 app.set("trust proxy", true);
-dotenv.config();
 
 app.use(cors());
 app.use(express.json({ limit: "30mb" }));
