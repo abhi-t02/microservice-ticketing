@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
+
 import { ticketInput } from "../schema/ticket.schema";
 import Ticket from "../models/ticket.model";
+import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 interface TicketRequest extends Request<{}, {}, ticketInput["body"]> {
   currentUser: {
@@ -25,6 +28,14 @@ export async function createTicketHandler(
     });
 
     await ticket.save();
+
+    // Publishing event on NATS
+    new TicketCreatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
 
     res.status(201).send(ticket);
   } catch (err) {

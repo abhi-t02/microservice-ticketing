@@ -2,6 +2,8 @@ import request from "supertest";
 
 import app from "../../app";
 
+jest.mock("../../nats-wrapper.ts");
+
 const createTicket = () => {
   return request(app)
     .post("/api/v1/tickets")

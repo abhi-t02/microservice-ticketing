@@ -5,6 +5,8 @@ import { sign } from "jsonwebtoken";
 
 import app from "../app";
 
+jest.mock("../nats-wrapper");
+
 declare global {
   function signup(): string[];
 }
@@ -12,6 +14,7 @@ declare global {
 let mongo: any;
 
 beforeAll(async function () {
+  jest.clearAllMocks();
   process.env.JWT_KEY = "secret";
   mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
