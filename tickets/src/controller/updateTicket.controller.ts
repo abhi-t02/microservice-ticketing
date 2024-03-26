@@ -19,7 +19,7 @@ export async function updateHandler(
 ) {
   try {
     const ticket = await Ticket.findById(req.params.id);
-    const { title, price } = req.body;
+    const updateData = req.body;
 
     if (!ticket) {
       throw new NotFoundError();
@@ -29,12 +29,10 @@ export async function updateHandler(
       throw new NotAuthorizedError("No Update permission.");
     }
 
-    const updatedTicket = await ticket.updateOne({
-      title,
-      price,
-    });
-    console.log(updatedTicket);
-    res.send(updatedTicket);
+    ticket.set(updateData);
+    await ticket.save();
+
+    res.send(ticket);
   } catch (err) {
     next(err);
   }
