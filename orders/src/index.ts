@@ -2,6 +2,8 @@ import { connect } from "mongoose";
 
 import app from "./app";
 import { natsWrapper } from "./nats-wrapper";
+import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
+import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
 
 const MONGO_URI = <string>process.env.MONGO_URI;
 
@@ -25,6 +27,11 @@ const MONGO_URI = <string>process.env.MONGO_URI;
 
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
+
+    // listeners
+    new TicketUpdatedListener(natsWrapper.client).listen();
+    new TicketCreatedListener(natsWrapper.client).listen();
+    console.log("33 line");
 
     // MongoDB connection
     await connect(MONGO_URI);

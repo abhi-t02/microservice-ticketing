@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@attickets02/common": "^1.0.8",
+    "@attickets02/common": "^1.0.14",
     "@types/cookie-session": "^2.0.48",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
