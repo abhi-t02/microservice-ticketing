@@ -3,6 +3,7 @@ import { Order } from "./order.model";
 import { OrderStatus } from "@attickets02/common";
 
 export interface TicketDoc extends Document {
+  id: string;
   title: string;
   price: number;
 }

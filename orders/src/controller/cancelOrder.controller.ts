@@ -5,6 +5,8 @@ import {
   NotFoundError,
   OrderStatus,
 } from "@attickets02/common";
+import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 interface AuthRequest extends Request {
   currentUser: {
@@ -19,7 +21,7 @@ export async function cancelOrderHandler(
   next: NextFunction
 ) {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate("ticket");
 
     if (!order) {
       throw new NotFoundError();
@@ -35,6 +37,12 @@ export async function cancelOrderHandler(
     /**
      * TODO Publishing an event for cancelled order
      */
+    new OrderCancelledPublisher(natsWrapper.client).publish({
+      id: order.id,
+      ticket: {
+        id: order.ticket.id,
+      },
+    });
 
     res.status(204).send();
   } catch (err) {
