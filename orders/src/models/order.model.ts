@@ -1,14 +1,13 @@
 import { Model, model, Schema } from "mongoose";
+import { OrderStatus } from "@attickets02/common";
+
+import { TicketDoc } from "./ticket.model";
 
 interface OrderDoc {
-  ticketId: string;
-  status: string;
+  userId: string;
+  status: OrderStatus;
   expiresAt: Date;
-
-  /**
-   * TODO TicketDoc implementation
-   */
-  ticket: any;
+  ticket: TicketDoc;
 }
 
 interface OrderMethodDoc {}
@@ -17,13 +16,15 @@ type OrderDocModel = Model<OrderDoc, {}, OrderMethodDoc>;
 
 const OrderSchema = new Schema<OrderDoc, OrderDocModel, OrderMethodDoc>(
   {
-    ticketId: {
+    userId: {
       type: String,
       required: true,
     },
     status: {
       type: String,
       required: true,
+      enum: Object.values(OrderStatus),
+      default: OrderStatus.Created,
     },
     expiresAt: {
       type: Schema.Types.Date,
