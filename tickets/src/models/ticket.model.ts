@@ -1,9 +1,12 @@
 import { Model, model, Schema } from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface TicketDoc {
   title: string;
   price: number;
   userId: string;
+  orderId?: string;
+  version: number;
 }
 
 interface TicketDocMethods {}
@@ -23,6 +26,9 @@ const TicketSchema = new Schema<TicketDoc, TicketDocModel, TicketDocMethods>(
     userId: {
       type: String,
     },
+    orderId: {
+      type: String,
+    },
   },
   {
     timestamps: {
@@ -37,6 +43,9 @@ const TicketSchema = new Schema<TicketDoc, TicketDocModel, TicketDocMethods>(
     },
   }
 );
+
+TicketSchema.set("versionKey", "version");
+TicketSchema.plugin(updateIfCurrentPlugin);
 
 const Ticket = model<TicketDoc, TicketDocModel>("Ticket", TicketSchema);
 

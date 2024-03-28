@@ -1,4 +1,5 @@
 import { Model, model, Schema } from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { OrderStatus } from "@attickets02/common";
 
 import { TicketDoc } from "./ticket.model";
@@ -8,6 +9,7 @@ interface OrderDoc {
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
+  version: number;
 }
 
 interface OrderMethodDoc {}
@@ -43,6 +45,9 @@ const OrderSchema = new Schema<OrderDoc, OrderDocModel, OrderMethodDoc>(
     },
   }
 );
+
+OrderSchema.set("versionKey", "version");
+OrderSchema.plugin(updateIfCurrentPlugin);
 
 const Order = model<OrderDoc, OrderDocModel>("Order", OrderSchema);
 
