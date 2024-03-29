@@ -1,8 +1,9 @@
 import request from "supertest";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 import app from "../../app";
 import { natsWrapper } from "../../nats-wrapper";
+import Ticket from "../../models/ticket.model";
 
 jest.mock("../../nats-wrapper.ts");
 
@@ -94,4 +95,27 @@ it("publishes an event", async () => {
     .expect(200);
 
   expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
+
+it("rejects update if ticket is reserved", async () => {
+  const updateTitle = "new update one";
+  const cookie = global.signup();
+
+  const response = await request(app)
+    .post("/api/v1/tickets")
+    .set("Cookie", cookie)
+    .send({ title, price })
+    .expect(201);
+
+  const ticket = await Ticket.findById(response.body.id);
+  ticket?.set({ orderId: new Types.ObjectId().toHexString() });
+  await ticket?.save();
+
+  const updateResponse = await request(app)
+    .put(`/api/v1/tickets/${response.body.id}`)
+    .set("Cookie", cookie)
+    .send({
+      title: updateTitle,
+    })
+    .expect(400);
 });

@@ -2,7 +2,11 @@ import { NextFunction, Request, Response } from "express";
 
 import { UpdateTicketInput } from "../schema/ticket.schema";
 import Ticket from "../models/ticket.model";
-import { NotAuthorizedError, NotFoundError } from "@attickets02/common";
+import {
+  BadRequestError,
+  NotAuthorizedError,
+  NotFoundError,
+} from "@attickets02/common";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
 import { natsWrapper } from "../nats-wrapper";
 
@@ -25,6 +29,10 @@ export async function updateHandler(
 
     if (!ticket) {
       throw new NotFoundError();
+    }
+
+    if (ticket.orderId) {
+      throw new BadRequestError("Can not edit a reserved ticket.");
     }
 
     if (ticket.userId !== req.currentUser.id) {
