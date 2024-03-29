@@ -5,6 +5,8 @@ import { OrderCreatedlistener } from "../order-created-listener";
 import { Types } from "mongoose";
 import { Message } from "node-nats-streaming";
 
+const id = new Types.ObjectId().toHexString();
+
 const setup = async () => {
   // Create an instance of the listener
   const listener = new OrderCreatedlistener(natsWrapper.client);
@@ -20,10 +22,10 @@ const setup = async () => {
 
   // Create the fake data event
   const data: OrderCreatedEvent["data"] = {
-    id: new Types.ObjectId().toHexString(),
+    id: id,
     version: 0,
     status: OrderStatus.Created,
-    userId: "akcjk",
+    userId: ticket.userId,
     ticket: {
       id: ticket.id,
       price: ticket.price,
