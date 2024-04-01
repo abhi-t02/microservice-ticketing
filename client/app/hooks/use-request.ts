@@ -6,10 +6,10 @@ interface bodyType {
   password?: string;
 }
 
-export default function useRequest(params: {
+export default function useRequest<T>(params: {
   url: string;
   method: string;
-  body: bodyType | "";
+  body: T | bodyType | "";
   onSuccess: Function;
 }) {
   const [errors, setErrors] = useState(null);

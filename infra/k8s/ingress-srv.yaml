@@ -31,7 +31,7 @@ spec:
                 port:
                   number: 3000
           - pathType: Prefix
-            path: "/"
+            path: "/api/v1/orders/"
             backend:
               service:
                 name: orders-srv
