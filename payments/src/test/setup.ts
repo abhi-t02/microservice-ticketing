@@ -8,7 +8,7 @@ import app from "../app";
 jest.mock("../nats-wrapper");
 
 declare global {
-  function signup(): string[];
+  function signup(id?: string): string[];
 }
 
 let mongo: any;
@@ -37,9 +37,9 @@ afterAll(async function () {
   mongoose.connection.close();
 });
 
-global.signup = () => {
+global.signup = (id?: string) => {
   const payload = {
-    id: new mongoose.Types.ObjectId().toHexString(),
+    id: id || new mongoose.Types.ObjectId().toHexString(),
     email: "test@test.com",
   };
 

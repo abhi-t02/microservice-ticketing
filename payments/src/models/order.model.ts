@@ -1,5 +1,5 @@
 import { OrderStatus } from "@attickets02/common";
-import { Model, model, Schema } from "mongoose";
+import { HydratedDocument, Model, model, Schema } from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface OrderDoc {
@@ -11,7 +11,12 @@ interface OrderDoc {
 
 interface OrderMethodsDoc {}
 
-interface OrderModel extends Model<OrderDoc, {}, OrderMethodsDoc> {}
+interface OrderModel extends Model<OrderDoc, {}, OrderMethodsDoc> {
+  findOrder: (event: {
+    id: string;
+    version: number;
+  }) => Promise<HydratedDocument<OrderDoc | null>>;
+}
 
 const OrderSchema = new Schema<OrderDoc, OrderModel, OrderMethodsDoc>(
   {
@@ -40,7 +45,15 @@ const OrderSchema = new Schema<OrderDoc, OrderModel, OrderMethodsDoc>(
 );
 
 OrderSchema.set("versionKey", "version");
-OrderSchema.plugin(updateIfCurrentPlugin);
+OrderSchema.plugin(<any>updateIfCurrentPlugin);
+
+// statics method
+OrderSchema.statics.findOrder = async function (event: {
+  id: string;
+  version: number;
+}) {
+  return await Order.findOne({ _id: event.id, version: event.version - 1 });
+};
 
 const Order = model<OrderDoc, OrderModel>("Order", OrderSchema);
 

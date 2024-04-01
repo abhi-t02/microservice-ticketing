@@ -5,6 +5,7 @@ import { natsWrapper } from "./nats-wrapper";
 import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
 import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
 import { ExpirationCompleteListener } from "./events/listeners/expiration-complete-listener";
+import { PaymentCreatedListener } from "./events/listeners/payment-created-listener";
 
 const MONGO_URI = <string>process.env.MONGO_URI;
 
@@ -33,6 +34,7 @@ const MONGO_URI = <string>process.env.MONGO_URI;
     new TicketUpdatedListener(natsWrapper.client).listen();
     new TicketCreatedListener(natsWrapper.client).listen();
     new ExpirationCompleteListener(natsWrapper.client).listen();
+    new PaymentCreatedListener(natsWrapper.client).listen();
 
     // MongoDB connection
     await connect(MONGO_URI);
