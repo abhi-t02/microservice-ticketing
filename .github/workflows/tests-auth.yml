@@ -1,4 +1,4 @@
-name: tets
+name: tets-auth
 
 on:
   pull_request
