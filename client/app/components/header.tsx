@@ -10,6 +10,7 @@ export default function Header({
   const links = [
     !email && { label: "SignUp", href: "/auth/signup" },
     !email && { label: "SignIn", href: "/auth/signin" },
+    email && { label: "Create ticket", href: "/tickets/new" },
     email && { label: "SignOut", href: "/auth/signout" },
   ]
     .filter((link) => link)

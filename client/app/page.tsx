@@ -1,6 +1,8 @@
 // "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import Link from "next/link";
+
 import axios from "axios";
 import { cookies } from "next/headers";
 
@@ -75,12 +77,17 @@ export default async function Home() {
           </tr>
         </thead>
         <tbody>
-          {tickets.map((ticket: any) => (
-            <tr key={ticket.id}>
-              <td>{ticket.title}</td>
-              <td>{ticket.price}</td>
-            </tr>
-          ))}
+          {tickets.map((ticket: any) => {
+            const ticketId = ticket.id;
+            return (
+              <tr key={ticket.id}>
+                <td>
+                  <Link href={`/tickets/${ticketId}`}>{ticket.title}</Link>
+                </td>
+                <td>{ticket.price}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

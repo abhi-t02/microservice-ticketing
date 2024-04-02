@@ -12,7 +12,7 @@ import { OrderCreatedPublisher } from "../events/publishers/order-created-publis
 import { natsWrapper } from "../nats-wrapper";
 
 // variables
-const EXPIRATION_WINDOW_SECONDS = 15 * 60;
+const EXPIRATION_WINDOW_SECONDS = 1 * 60;
 
 // Auth request type
 interface AuthRequest extends Request<{}, {}, OrderInput["body"]> {
