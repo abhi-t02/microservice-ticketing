@@ -1,7 +1,9 @@
 name: tets-orders
 
 on:
-  pull_request
+  pull_request:
+    paths:
+      - "orders/**"
 
 jobs:
   build:
