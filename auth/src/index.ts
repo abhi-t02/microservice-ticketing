@@ -7,6 +7,7 @@ const MONGO_URI = <string>process.env.MONGO_URI;
 // Database connection
 (async function () {
   console.log("Starting up...");
+  console.log("just testing");
 
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY must be defined.");
